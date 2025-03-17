@@ -5,11 +5,6 @@ export const initIsVisible = (): IInitialState['isVisible'] => ({
 	headerCart: false
 });
 
-export const initState = (cart?: IInitialState['cart']): IInitialState => ({
-	isVisible: initIsVisible(),
-	cart: cart || {
-		productsData: [],
-		// updatedAt: new Date()
-		updatedAt: null
-	}
+export const initState = (): IInitialState => ({
+	isVisible: initIsVisible()
 });

@@ -2,10 +2,10 @@ import type { IGenericErrorResponse } from 'types';
 import type { FormEvent } from 'react';
 
 import { useState } from 'react';
-import CustomNextImage from '@components/shared/common/CustomNextImage';
-import Button from '@components/shared/core/Button';
-import Logo from '@components/shared/core/Logo';
-import { useGetUserDataFromStore } from '@utils/core/hooks';
+import CustomNextImage from '~/components/shared/common/CustomNextImage';
+import Button from '~/components/shared/core/Button';
+import Logo from '~/components/shared/core/Logo';
+import { useGetUserDataFromStore } from '~/utils/core/hooks';
 import Link from 'next/link';
 import { useId } from 'react';
 import { FaInstagram, FaFacebook, FaTwitter, FaYoutube } from 'react-icons/fa';

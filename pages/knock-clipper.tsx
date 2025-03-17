@@ -1,10 +1,10 @@
-import KnockClipperScreen from '@components/screens/KnockClipper';
-import { IProduct } from 'types';
+import KnockClipperScreen from '~/components/screens/KnockClipper';
 import type { GetServerSideProps, NextPage } from 'next';
-import { getOneProductByHandle } from 'server/controllers/products';
+import { Product } from '~/libs/shopify/types';
+import { getProduct } from '~/libs/shopify';
 
 export interface IKnockClipperPageProps {
-	knockClipperPlugin: IProduct;
+	knockClipperPlugin: Product;
 }
 
 const KnockClipperPage: NextPage<IKnockClipperPageProps> = (props) => {
@@ -14,9 +14,7 @@ const KnockClipperPage: NextPage<IKnockClipperPageProps> = (props) => {
 export default KnockClipperPage;
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-	const knockClipperPlugin = JSON.parse(
-		JSON.stringify(await getOneProductByHandle('knock-clipper')) // knockclipper-pluginboutique
-	);
+	const knockClipperPlugin = await getProduct({ handle: 'knock-clipper' });
 
 	res.setHeader(
 		'Cache-Control',

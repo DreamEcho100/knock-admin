@@ -3,8 +3,8 @@ import { FC } from 'react';
 import ReactMarkdown from 'react-markdown';
 import { Options } from 'react-markdown/lib/ast-to-react';
 
-// import helpersClasses from '@styles/helpers.module.css'
-import CustomNextImage from '@components/shared/common/CustomNextImage';
+// import helpersClasses from '~/styles/helpers.module.css'
+import CustomNextImage from '~/components/shared/common/CustomNextImage';
 
 // import { imagesWeservNlLoader } from '@commonLibIndependent/image'
 

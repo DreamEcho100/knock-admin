@@ -1,5 +1,5 @@
-import CustomNextImage from '@components/shared/common/CustomNextImage';
-import type { IProductByIdPageProps } from '@pages/products/[productId]';
+import CustomNextImage from '~/components/shared/common/CustomNextImage';
+import type { IProductByIdPageProps } from '~/pages/products/[productHandle]';
 
 const VideoSection = ({}: // video
 {

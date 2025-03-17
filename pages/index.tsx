@@ -1,12 +1,11 @@
 import type { NextPage, GetServerSideProps } from 'next';
 
 import HomeScreen from 'components/screens/Home';
-import { getAllProducts } from 'server/controllers/products';
-import type { IProduct } from 'types';
-
+import { getProducts } from '~/libs/shopify';
+import { Product } from '~/libs/shopify/types';
 export interface IHomePageProps {
-	products: IProduct[]; // ShopifyBuy.Product[];
-	openPopUp:boolean
+	products: Product[]; // ShopifyBuy.Product[];
+	openPopUp: boolean;
 }
 
 const HomePage: NextPage<IHomePageProps> = (props) => {
@@ -16,13 +15,13 @@ const HomePage: NextPage<IHomePageProps> = (props) => {
 export default HomePage;
 
 export const getServerSideProps: GetServerSideProps = async () => {
-	const products = JSON.parse(
-		JSON.stringify(
-			await getAllProducts({
-				typesToExclude: ['Sound Editing Software', 'Tutorial']
-			})
-		)
-	);
+	const products = await getProducts().then((products) => {
+		const typesToExclude = ['Sound Editing Software', 'Tutorial'];
+
+		return products.filter(
+			(product) => !typesToExclude.includes(product.productType)
+		);
+	});
 
 	return {
 		props: {

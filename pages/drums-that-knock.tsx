@@ -1,15 +1,12 @@
 import type { GetServerSideProps, NextPage } from 'next';
 
-import DrumsThatKnock from '@components/screens/DrumsThatKnock';
-import { IProduct } from 'types';
-import {
-	getAllProducts,
-	getOneProductByHandle
-} from 'server/controllers/products';
+import DrumsThatKnock from '~/components/screens/DrumsThatKnock';
+import { Product } from '~/libs/shopify/types';
+import { getProduct, getProducts } from '~/libs/shopify';
 
 export interface IDrumsThatKnockPageProps {
-	products: IProduct[]; // ShopifyBuy.Product[];
-	knockPlugin: IProduct; // ShopifyBuy.Product;
+	products: Product[]; // ShopifyBuy.Product[];
+	knockPlugin: Product; // ShopifyBuy.Product;
 }
 
 const DrumsThatKnockPage: NextPage<IDrumsThatKnockPageProps> = ({
@@ -22,15 +19,15 @@ const DrumsThatKnockPage: NextPage<IDrumsThatKnockPageProps> = ({
 export default DrumsThatKnockPage;
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-	const products = JSON.parse(
-		JSON.stringify(
-			await getAllProducts({ typesToExclude: ['Sound Editing Software'] })
-		)
-	);
+	const products = await getProducts().then((products) => {
+		const typesToExclude = ['Sound Editing Software'];
 
-	const knockPlugin = JSON.parse(
-		JSON.stringify(await getOneProductByHandle('knock-plugin'))
-	);
+		return products.filter(
+			(product) => !typesToExclude.includes(product.productType)
+		);
+	});
+
+	const knockPlugin = await getProduct({ handle: 'knock-plugin' });
 
 	res.setHeader(
 		'Cache-Control',

@@ -1,14 +1,17 @@
 import type { NextPage } from 'next';
 
-import Button from '@components/shared/core/Button';
-import FormInput from '@components/shared/core/FormInput';
+import Button from '~/components/shared/core/Button';
+import FormInput from '~/components/shared/core/FormInput';
 import { FormEvent, useState } from 'react';
 import Link from 'next/link';
 import { useMutation } from '@tanstack/react-query';
 import type { IGenericErrorResponse } from 'types';
 import { toast } from 'react-toastify';
 import { CountryDropdown } from 'react-country-region-selector';
-import { defaultSiteName3, websiteBasePath } from '@utils/core/next-seo.config';
+import {
+	defaultSiteName3,
+	websiteBasePath
+} from '~/utils/core/next-seo.config';
 
 const ContactUsPage: NextPage = () => {
 	const [formValues, setFormValues] = useState({

@@ -1,5 +1,5 @@
-import { IProductByIdPageProps } from '@pages/products/[productId]';
-import TwoCardContainer from '@components/shared/core/TwoCardContainer';
+import { IProductByIdPageProps } from '~/pages/products/[productHandle]';
+import TwoCardContainer from '~/components/shared/core/TwoCardContainer';
 
 const FeaturesAndFilesIncludedSection = ({}: // features,
 // filesIncluded

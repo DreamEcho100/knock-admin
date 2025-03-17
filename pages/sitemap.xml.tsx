@@ -1,8 +1,8 @@
-import { getIdFromGid } from '@utils/core/shopify';
+import { getIdFromGid } from '~/utils/core/shopify';
 
 import type { GetServerSideProps } from 'next';
 
-import { getAllProducts } from 'server/controllers/products';
+import { getProducts } from '~/libs/shopify';
 
 //pages/sitemap.xml.js
 const EXTERNAL_DATA_URL = `https://${process.env.REDEEM_DOMAIN}`;
@@ -11,7 +11,7 @@ function generateSiteMap({
 	products,
 	staticPaths
 }: {
-	products: Awaited<ReturnType<typeof getAllProducts>>;
+	products: Awaited<ReturnType<typeof getProducts>>;
 	staticPaths: string[];
 }) {
 	return `<?xml version="1.0" encoding="UTF-8"?>
@@ -29,10 +29,10 @@ function generateSiteMap({
 				})
 				.join('')}
 				${products
-					.map(({ id }) => {
+					.map((product) => {
 						return `
 					<url>
-							<loc>${`${EXTERNAL_DATA_URL}/products/${getIdFromGid(id)}`}</loc>
+							<loc>${`${EXTERNAL_DATA_URL}/products/${product.handle}`}</loc>
 					</url>
 				`;
 					})
@@ -47,9 +47,9 @@ function SiteMap() {
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
 	// We make an API call to gather the URLs for our site
-	const products = await getAllProducts({
-		typesToExclude: ['Sound Editing Software']
-	});
+	const products = (await getProducts()).filter(
+		(product) => !['Sound Editing Software'].includes(product.productType)
+	);
 
 	const staticPaths = [
 		'contact-us',

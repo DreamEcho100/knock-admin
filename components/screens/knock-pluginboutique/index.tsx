@@ -1,13 +1,13 @@
-import Button from '@components/shared/core/Button';
-import FormInput from '@components/shared/core/FormInput';
-import { IKnockPluginBoutiqueProps } from '@pages/boutique/[pluginsBoutique]';
+import Button from '~/components/shared/core/Button';
+import FormInput from '~/components/shared/core/FormInput';
+import { IKnockPluginBoutiqueProps } from '~/pages/boutique/[pluginsBoutique]';
 import { useMutation } from '@tanstack/react-query';
 import type { IGenericErrorResponse } from 'types';
 import Head from 'next/head';
 import Image from 'next/image';
 import { FormEvent, useState } from 'react';
 import { toast } from 'react-toastify';
-import FormField from '@components/shared/core/FieldForm';
+import FormField from '~/components/shared/core/FieldForm';
 
 const KnockScreen = ({ knockPluginBoutique }: IKnockPluginBoutiqueProps) => {
 	const [openRedeem, setOpenRedeem] = useState(false);
@@ -125,7 +125,7 @@ const KnockScreen = ({ knockPluginBoutique }: IKnockPluginBoutiqueProps) => {
 						width={knockPluginBoutique.images[0].width}
 						height={knockPluginBoutique.images[0].height}
 						alt={knockPluginBoutique.title}
-						src={knockPluginBoutique.images[0].src}
+						src={knockPluginBoutique.images[0].url}
 					/>
 				</div>
 				{openRedeem ? (

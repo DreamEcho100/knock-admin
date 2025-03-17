@@ -1,4 +1,4 @@
-import type { IProductByIdPageProps } from '@pages/products/[productId]';
+import type { IProductByIdPageProps } from '~/pages/products/[productHandle]';
 
 import {
 	DescriptionSection,
@@ -6,7 +6,6 @@ import {
 	HeroSection,
 	VideoSection
 } from './sections';
-
 
 const ProductByIdScreen = ({ product }: IProductByIdPageProps) => {
 	return (

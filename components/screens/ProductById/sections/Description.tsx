@@ -1,6 +1,6 @@
-import type { IProductByIdPageProps } from '@pages/products/[productId]';
+import type { IProductByIdPageProps } from '~/pages/products/[productHandle]';
 
-import Description from '@components/shared/core/Description';
+import Description from '~/components/shared/core/Description';
 
 const DescriptionSection = ({
 	description

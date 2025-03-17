@@ -1,11 +1,11 @@
-import ProductBasicCard from '@components/shared/core/Card/product/default';
+import ProductBasicCard from '~/components/shared/core/Card/product/default';
 import { Navigation, A11y, Autoplay } from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
-import type { IHomePageProps } from '@pages/index';
-import { getIdFromGid } from '@utils/core/shopify';
+import type { IHomePageProps } from '~/pages/index';
+import { getIdFromGid } from '~/utils/core/shopify';
 
 const ProductCardSlider = ({
 	products
@@ -38,7 +38,7 @@ const ProductCardSlider = ({
 							key={item.id}
 							link={{
 								children: item.title,
-								href: `/products/${getIdFromGid(item.id)}`
+								href: `/products/${item.handle}`
 							}}
 							productData={item}
 						/>

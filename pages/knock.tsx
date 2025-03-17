@@ -1,23 +1,21 @@
 import type { GetServerSideProps, NextPage } from 'next';
 
-import KnockScreen from '@components/screens/Knock';
-import type { IProduct } from 'types';
-import { getOneProductByHandle } from 'server/controllers/products';
+import KnockScreen from '~/components/screens/Knock';
+import { Product } from '~/libs/shopify/types';
+import { getProduct } from '~/libs/shopify';
 
 export interface IKnockPluginPageProps {
-	knockPlugin: IProduct; // ShopifyBuy.Product;
+	knockPlugin: Product; // ShopifyBuy.Product;
 }
 
-const KnockPluginPage: NextPage<IKnockPluginPageProps> = (props) => {	
+const KnockPluginPage: NextPage<IKnockPluginPageProps> = (props) => {
 	return <KnockScreen {...props} />;
 };
 
 export default KnockPluginPage;
 
 export const getServerSideProps: GetServerSideProps = async ({ res }) => {
-	const knockPlugin = JSON.parse(
-		JSON.stringify(await getOneProductByHandle('knock-plugin'))
-	);
+	const knockPlugin = await getProduct({ handle: 'knock-plugin' });
 
 	res.setHeader(
 		'Cache-Control',

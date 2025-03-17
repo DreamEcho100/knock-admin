@@ -1,11 +1,24 @@
-import Button from '@components/shared/core/Button';
+import Button from '~/components/shared/core/Button';
 import Image from 'next/image';
 import React from 'react';
 import classes from '../../../../styles/productsPages.module.scss';
-import { useAddProductsToCheckoutAndCart } from '@utils/core/hooks';
+import {
+	cartStore,
+	getCartLineItemPendingUpsertOrUpdateKey
+} from '~/libs/shopify/stores/cart';
+import { useStore } from 'zustand';
 
 const ProductDetails = ({ product }) => {
-	const addProductsToCheckoutAndCart = useAddProductsToCheckoutAndCart();
+	const isPending = useStore(
+		cartStore,
+		(state) =>
+			state.pendingActions[
+				getCartLineItemPendingUpsertOrUpdateKey(
+					product.id,
+					product.variants[0].id
+				)
+			]
+	);
 
 	return (
 		<div className={classes.ProductCardDetailsContainer}>
@@ -16,7 +29,7 @@ const ProductDetails = ({ product }) => {
 						alt={product.title}
 						width={product.variants[0].image.width}
 						height={product.variants[0].image.height}
-						src={product.variants[0].image.src}
+						src={product.variants[0].image.url}
 					/>
 				</div>
 				<div>
@@ -43,10 +56,12 @@ const ProductDetails = ({ product }) => {
 					<div>
 						<Button
 							onClick={() =>
-								addProductsToCheckoutAndCart.mutate({
-									products: [{ ...product, quantity: 1 }]
+								void cartStore.getState().upsertCartItem(product.variants[0], {
+									...product,
+									description: product.originalDescription
 								})
 							}
+							disabled={isPending}
 						>
 							Add To Cart
 						</Button>
