@@ -72,7 +72,7 @@ const KnockProductShowcaseSection = ({
                     ""
                   )}
                   <KnockTrademark
-                    tradeMark={OnLiveSecondSectionChange.tradeMark}
+                    tradeMarkPrefix={OnLiveSecondSectionChange.tradeMark}
                   />
                 </Link>
               ),

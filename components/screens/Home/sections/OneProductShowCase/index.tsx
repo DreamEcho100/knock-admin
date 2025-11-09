@@ -53,7 +53,7 @@ const OneProductShowCaseSection = ({ data }: { data: any }) => {
               children: (
                 <>
                   <KnockTrademark
-                    tradeMark={
+                    tradeMarkPrefix={
                       OnLiveSecondSectionChange.tradeMark || data.tradeMark
                     }
                   />

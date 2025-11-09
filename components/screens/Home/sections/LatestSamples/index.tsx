@@ -117,7 +117,7 @@ const LatestSamplesSection = ({
               >
                 {OnLivelatestSamplesChange.h2[0]}&nbsp;
                 <KnockTrademark
-                  tradeMark={OnLivelatestSamplesChange.tradeMark}
+                  tradeMarkPrefix={OnLivelatestSamplesChange.tradeMark}
                 />
                 {OnLivelatestSamplesChange.h2[1]}
               </h2>

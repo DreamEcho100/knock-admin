@@ -37,7 +37,7 @@ const DrumsThatKnockSection = ({
       title={
         <>
           {OnLiveMainSectionChange.h2}&nbsp;
-          <KnockTrademark tradeMark={OnLiveMainSectionChange.tradeMark} />
+          <KnockTrademark tradeMarkPrefix={OnLiveMainSectionChange.tradeMark} />
         </>
       }
       imageSrc={

@@ -6,6 +6,7 @@ import { getKnockMainSection } from "~/utils/core/API";
 import { useState } from "react";
 import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
 import { Product } from "~/libs/shopify/types";
+import KnockTrademark from "~/components/shared/core/KnockTrademark";
 
 const HeroSection = ({
   knockPlugin,
@@ -42,53 +43,51 @@ const HeroSection = ({
   });
 
   return (
-    <>
-      <KnockSection
-        windowWidth={windowWidth}
-        buttonElem={
-          <AddItemOnHeroSectionButton
-            product={knockPlugin}
-            buttonProps={{ children: knockMainSectionData.buttonText }}
+    <KnockSection
+      windowWidth={windowWidth}
+      buttonElem={
+        <AddItemOnHeroSectionButton
+          product={knockPlugin}
+          buttonProps={{ children: knockMainSectionData.buttonText }}
+        />
+      }
+      title={
+        <>
+          {knockMainSectionData.h2 || (
+            <SkeletonTheme baseColor="#000" highlightColor="#7d7b78">
+              <Skeleton count={1} height={25} width={150} />
+            </SkeletonTheme>
+          )}
+          &nbsp;
+          <KnockTrademark
+            tradeMarkPrefix={
+              knockMainSectionData.tradeMark || (
+                <SkeletonTheme baseColor="#000" highlightColor="#7d7b78">
+                  <Skeleton count={1} height={25} width={150} />
+                </SkeletonTheme>
+              )
+            }
           />
-        }
-        title={
-          <>
-            {knockMainSectionData.h2 || (
-              <SkeletonTheme baseColor="#000" highlightColor="#7d7b78">
-                <Skeleton count={1} height={25} width={150} />
-              </SkeletonTheme>
-            )}
-            &nbsp;
-            <KnockTrademark
-              tradeMark={
-                knockMainSectionData.tradeMark || (
-                  <SkeletonTheme baseColor="#000" highlightColor="#7d7b78">
-                    <Skeleton count={1} height={25} width={150} />
-                  </SkeletonTheme>
-                )
-              }
-            />
-          </>
-        }
-        imageSrc={
-          previewImage
-            ? previewImage
-            : knockMainSectionData.mainImageUrl
-            ? process.env.NEXT_PUBLIC_KNOCK_URL_API +
-              knockMainSectionData.mainImageUrl
-            : ""
-        }
-        description={knockMainSectionData.p}
-        pTheme={{ width: "small" }}
-        setOnLiveMainSectionChange={setOnLiveMainSectionChange}
-        isOpen={isOpen}
-        setIsOpen={setIsOpen}
-        mainSection={mainSection}
-        setPreviewImage={setPreviewImage}
-        mainSectionPageId="knock-page"
-        OnLiveMainSectionChange={knockMainSectionData}
-      />
-    </>
+        </>
+      }
+      imageSrc={
+        previewImage
+          ? previewImage
+          : knockMainSectionData.mainImageUrl
+          ? process.env.NEXT_PUBLIC_KNOCK_URL_API +
+            knockMainSectionData.mainImageUrl
+          : ""
+      }
+      description={knockMainSectionData.p}
+      pTheme={{ width: "small" }}
+      setOnLiveMainSectionChange={setOnLiveMainSectionChange}
+      isOpen={isOpen}
+      setIsOpen={setIsOpen}
+      mainSection={mainSection}
+      setPreviewImage={setPreviewImage}
+      mainSectionPageId="knock-page"
+      OnLiveMainSectionChange={knockMainSectionData}
+    />
   );
 };
 
