@@ -16,7 +16,9 @@ import Button from "~/components/shared/core/Button";
 const PrivatePoliciesScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [editSectionId, setEditSection] = useState("");
-  const { data } = useQuery(["privacy-page"], () => getPrivacyPolicy(), {
+  const { data } = useQuery({
+    queryKey: ["privacy-page"],
+    queryFn: () => getPrivacyPolicy(),
     onSuccess(data) {
       return data;
     },

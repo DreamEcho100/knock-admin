@@ -14,7 +14,9 @@ import { toast } from "react-toastify";
 
 const RefundPolicyScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { data } = useQuery(["refund-policy"], () => getRefundPolicy(), {
+  const { data } = useQuery({
+    queryKey: ["refund-policy"],
+    queryFn: () => getRefundPolicy(),
     onSuccess(data) {
       return data;
     },

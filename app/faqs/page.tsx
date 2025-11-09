@@ -29,7 +29,9 @@ import { toast } from "react-toastify";
 import AlertDialogComponent from "~/components/shared/common/Dialog/alertDialog";
 
 const FAQSPages: NextPage = () => {
-  const { data } = useQuery(["faq"], () => getFaqPageData(), {
+  const { data } = useQuery({
+    queryKey: ["faq"],
+    queryFn: () => getFaqPageData(),
     onSuccess(data) {
       return data;
     },

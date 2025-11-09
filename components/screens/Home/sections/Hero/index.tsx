@@ -14,7 +14,9 @@ const HeroSection = ({
   windowWidth: number;
 }) => {
   const [previewImage, setPreviewImage] = useState(null);
-  const mainSection = useQuery(["main-section"], () => getMainSection(), {
+  const mainSection = useQuery({
+    queryKey: ["main-section"],
+    queryFn: () => getMainSection(),
     refetchOnWindowFocus: true,
   });
 

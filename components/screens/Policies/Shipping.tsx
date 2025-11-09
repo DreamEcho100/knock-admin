@@ -15,7 +15,9 @@ import { toast } from "react-toastify";
 const ShippingPolicyScreen = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [listId, setListId] = useState(null);
-  const { data } = useQuery(["shipping-policy"], () => getShippingPolicy(), {
+  const { data } = useQuery({
+    queryKey: ["shipping-policy"],
+    queryFn: () => getShippingPolicy(),
     onSuccess(data) {
       return data;
     },

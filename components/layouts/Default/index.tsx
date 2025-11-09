@@ -32,11 +32,15 @@ const DefaultLayout = ({
   const [openBanner, setBanner] = useState(true);
   const { user } = useGetUserDataFromStore();
 
-  const popup = useQuery(["get-popup"], () => getPopup(), {
+  const popup = useQuery({
+    queryKey: ["get-popup"],
+    queryFn: () => getPopup(),
     refetchInterval: 3000,
   });
 
-  const upselling = useQuery(["get-upselling-popup"], getUpSellingPopup, {
+  const upselling = useQuery({
+    queryKey: ["get-upselling-popup"],
+    queryFn: getUpSellingPopup,
     refetchInterval: 3000,
   });
 
@@ -45,7 +49,9 @@ const DefaultLayout = ({
     (state) => state.isVisible.upsellingPopup
   );
 
-  const products = useQuery(["all-products"], () => getProducts(), {
+  const products = useQuery({
+    queryKey: ["all-products"],
+    queryFn: () => getProducts(),
     refetchOnWindowFocus: true,
   });
 

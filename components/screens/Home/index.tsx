@@ -18,7 +18,9 @@ const HomeScreen = ({
   products: Product[];
   openPopUp: boolean;
 }) => {
-  const homePageData = useQuery(["home-page-data"], () => getHomePageData(), {
+  const homePageData = useQuery({
+    queryKey: ["home-page-data"],
+    queryFn: () => getHomePageData(),
     onSuccess(data) {
       return data;
     },

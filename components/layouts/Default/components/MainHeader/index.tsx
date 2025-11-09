@@ -1,3 +1,4 @@
+/** biome-ignore-all lint/correctness/useUniqueElementIds: <explanation> */
 import CustomNextImage from "~/components/shared/common/CustomNextImage";
 import Button from "~/components/shared/core/Button";
 import Logo from "~/components/shared/core/Logo";
@@ -77,7 +78,7 @@ const MainHeader = (props: any) => {
   const [onLiveBannerChange, setOnLiveBannerChange] = useState({
     text: "",
     textColor: "",
-    background: "",
+    background: "#FFF000",
     bannerUrl: "",
     bannerUrlText: "",
     isAddToCartButton: "",
@@ -88,7 +89,9 @@ const MainHeader = (props: any) => {
   const [setEditBanner, setIsEditingBanner] = useState(false);
   const [isSmallScreenNaveOpen, setIsSmallScreenNaveOpen] = useState(false);
 
-  useQuery(["init-cart"], initCart, {
+  useQuery({
+    queryKey: ["init-cart"],
+    queryFn: initCart,
     onSuccess: cartStore.getState().initCart,
   });
 
@@ -99,7 +102,9 @@ const MainHeader = (props: any) => {
     (state) => state.isVisible.banner
   );
 
-  const banner = useQuery(["banner-data"], getBanner, {
+  const banner = useQuery({
+    queryKey: ["banner-data"],
+    queryFn: getBanner,
     refetchOnWindowFocus: true,
   });
 
@@ -174,7 +179,7 @@ const MainHeader = (props: any) => {
           style={{ background: onLiveBannerChange.background }}
           className={`${commonClasses} z-10 fixed ${
             props.openBanner ? "h-14" : "h-0"
-          }  right-0 left-0 w-full flex items-center justify-center`}
+          }  right-0 left-0 top-0 w-full flex items-center justify-center`}
         >
           <div>
             <div
@@ -198,6 +203,7 @@ const MainHeader = (props: any) => {
                   </div>
                 ) : (
                   <button
+                    type="button"
                     className="text-bold border rounded-3xl	 px-5"
                     onClick={addToCart}
                   >
@@ -444,7 +450,9 @@ const CartContainer = ({
 
   const [isOpen, setIsOpen] = useState(false);
 
-  const upselling = useQuery(["get-upselling-popup"], getUpSellingPopup, {
+  const upselling = useQuery({
+    queryKey: ["get-upselling-popup"],
+    queryFn: getUpSellingPopup,
     refetchOnWindowFocus: true,
   });
 
@@ -455,7 +463,9 @@ const CartContainer = ({
     (state) => state.cart.discountCodes
   );
 
-  const { data } = useQuery(["all-products"], () => getProducts(), {
+  const { data } = useQuery({
+    queryKey: ["all-products"],
+    queryFn: () => getProducts(),
     refetchOnWindowFocus: true,
   });
 

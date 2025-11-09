@@ -19,7 +19,9 @@ const DrumsThatKnock = ({
   products,
   knockPlugin,
 }: IDrumsThatKnockPageProps) => {
-  const { data } = useQuery(["dtk-page"], () => getDTKPageData(), {
+  const { data } = useQuery({
+    queryKey: ["dtk-page"],
+    queryFn: () => getDTKPageData(),
     onSuccess(data) {
       return data;
     },

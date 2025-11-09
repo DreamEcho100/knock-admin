@@ -17,7 +17,9 @@ const TermsOfServiceScreen = () => {
   const [textId, setTextId] = useState(null);
 
   const [formValues, setFormValues] = useState({});
-  const { data } = useQuery(["terms"], () => getTermsOfService(), {
+  const { data } = useQuery({
+    queryKey: ["terms"],
+    queryFn: () => getTermsOfService(),
     onSuccess(data) {
       return data;
     },

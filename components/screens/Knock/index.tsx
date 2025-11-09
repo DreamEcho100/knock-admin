@@ -20,7 +20,9 @@ import { Product } from "~/libs/shopify/types";
 // const shortReviews = reviews.filter((review) => review.review.length < 100);
 
 const KnockScreen = ({ knockPlugin }: { knockPlugin: Product }) => {
-  const { data } = useQuery(["knock"], () => getKnockPageData(), {
+  const { data } = useQuery({
+    queryKey: ["knock"],
+    queryFn: () => getKnockPageData(),
     onSuccess(data) {
       return data;
     },
