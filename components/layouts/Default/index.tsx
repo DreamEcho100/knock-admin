@@ -45,7 +45,6 @@ const DefaultLayout = ({
     (state) => state.isVisible.upsellingPopup
   );
 
-
   const products = useQuery(["all-products"], () => getProducts(), {
     refetchOnWindowFocus: true,
   });
@@ -56,7 +55,6 @@ const DefaultLayout = ({
     enabled: !!accessToken,
     accessToken: accessToken,
   });
-
 
   return (
     <>
