@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { TAGS } from "./constants";
+import { collectionsPathSegment, TAGS } from "./constants";
 import {
   addToCartMutation,
   cartBuyerIdentityUpdateMutation,
@@ -49,7 +49,6 @@ import { headers } from "next/headers";
 import { revalidateTag } from "next/cache";
 import { getPageQuery, getPagesQuery } from "./queries/page";
 import {
-  collectionsPathSegment,
   reshapeProducts,
   removeEdgesAndNodes,
   reshapeCollections,
@@ -104,7 +103,6 @@ export async function getProducts({
   reverse?: boolean;
   sortKey?: string;
 } = {}): Promise<Product[]> {
-  console.log("___ yyyy", typeof window);
   const res = await shopifyFetch<ShopifyProductsOperation>({
     tags: [TAGS.products],
     revalidate: 3600,

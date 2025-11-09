@@ -1,64 +1,62 @@
-import type { NextApiRequest, NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from "next";
 
-import { z } from 'zod';
+import { z } from "zod";
 
-import axios from 'axios';
+import axios from "axios";
+import { APP_NAME } from "~/utils/core/constants";
 
-
-const SibApiV3Sdk = require('sib-api-v3-sdk');
-SibApiV3Sdk.ApiClient.instance.authentications['api-key'].apiKey =
-	process.env.SENDINBLUE_API_SMTP;
-
-
+const SibApiV3Sdk = require("sib-api-v3-sdk");
+SibApiV3Sdk.ApiClient.instance.authentications["api-key"].apiKey =
+  process.env.SENDINBLUE_API_SMTP;
 
 const subscribeToNewsLetters = async (
-	req: NextApiRequest & { params: Record<string, any> },
-	res: NextApiResponse
+  req: NextApiRequest & { params: Record<string, any> },
+  res: NextApiResponse
 ) => {
-	const email = z.string().email().parse(req.body.email);
+  const email = z.string().email().parse(req.body.email);
 
-	let apiInstance = new SibApiV3Sdk.ContactsApi();
+  let apiInstance = new SibApiV3Sdk.ContactsApi();
 
-	try {
-		let createContact = new SibApiV3Sdk.CreateContact();
+  try {
+    let createContact = new SibApiV3Sdk.CreateContact();
 
-		createContact.email = email;
-		createContact.listIds = [51];
-		const response = await apiInstance.createContact(createContact);
+    createContact.email = email;
+    createContact.listIds = [51];
+    const response = await apiInstance.createContact(createContact);
 
-		return res.status(200).json({
-			success: true,
-			message: 'You have been subscribed successfully!',
-			response
-		});
-	} catch (error) {
-		res.statusCode = error.status;
-		throw new Error('You are already subscribed to the newsletter');
-	}
+    return res.status(200).json({
+      success: true,
+      message: "You have been subscribed successfully!",
+      response,
+    });
+  } catch (error) {
+    res.statusCode = error.status;
+    throw new Error("You are already subscribed to the newsletter");
+  }
 };
 
 const supportForm = async (
-	req: NextApiRequest & { params: Record<string, any> },
-	res: NextApiResponse
+  req: NextApiRequest & { params: Record<string, any> },
+  res: NextApiResponse
 ) => {
-	const input = z
-		.object({
-			email: z.string().email(),
-			subject: z.string(),
-			message: z.string(),
-			fullName: z.string().min(2),
-			countryCode: z.string().min(3)
-		})
-		.parse(req.body);
+  const input = z
+    .object({
+      email: z.string().email(),
+      subject: z.string(),
+      message: z.string(),
+      fullName: z.string().min(2),
+      countryCode: z.string().min(3),
+    })
+    .parse(req.body);
 
-	const email = await new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
-		{
-			sender: {
-				email: input.email,
-				name: input.fullName
-			},
-			subject: input.subject,
-			htmlContent: `<!DOCTYPE html>
+  const email = await new SibApiV3Sdk.TransactionalEmailsApi().sendTransacEmail(
+    {
+      sender: {
+        email: input.email,
+        name: input.fullName,
+      },
+      subject: input.subject,
+      htmlContent: `<!DOCTYPE html>
 						<html lang="en">
 						<head>
 							<meta charset="UTF-8" />
@@ -175,139 +173,137 @@ const supportForm = async (
 						</html>
 				`,
 
-			to: [
-				{
-					email: process.env.NEXT_PUPLIC_FORMSUBMIT_EMAIL,
-				}
-			]
-		}
-	);
+      to: [
+        {
+          email: process.env.NEXT_PUPLIC_FORMSUBMIT_EMAIL,
+        },
+      ],
+    }
+  );
 
-	if (email) {
-		return res.status(200).json({
-			success: true,
-			message: 'The form was sent successfully!',
-			email
-		});
-	}
+  if (email) {
+    return res.status(200).json({
+      success: true,
+      message: "The form was sent successfully!",
+      email,
+    });
+  }
 };
 
 const redeemCode = async (
-	req: NextApiRequest & { params: Record<string, any> },
-	res: NextApiResponse
+  req: NextApiRequest & { params: Record<string, any> },
+  res: NextApiResponse
 ) => {
-	const data = req.body;
+  const data = req.body;
 
-	const response = await axios.post(
-		`https://redeem2.${process.env.REDEEM_DOMAIN}/api/price-rules`,
-		data,
-		{
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}
-	);
+  const response = await axios.post(
+    `https://redeem2.${process.env.REDEEM_DOMAIN}/api/price-rules`,
+    data,
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
-	if (response.data.verified === false) {
-		res.statusCode = 404;
-		throw new Error('INVALID CODE!');
-	}
+  if (response.data.verified === false) {
+    res.statusCode = 404;
+    throw new Error("INVALID CODE!");
+  }
 
-	return res.status(200).json({
-		success: true,
-		message: 'VALID CODE',
-		data: response.data
-	});
+  return res.status(200).json({
+    success: true,
+    message: "VALID CODE",
+    data: response.data,
+  });
 };
 
 const createOrderRedeemCode = async (
-	req: NextApiRequest & { params: Record<string, any> },
-	res: NextApiResponse
+  req: NextApiRequest & { params: Record<string, any> },
+  res: NextApiResponse
 ) => {
-	const input = z
-		.object({
-			redeemCode: z.string().min(4),
-			firstName: z.string().min(2),
-			lastName: z.string().min(2),
-			email: z.string().email(),
-			variantId: z.string(),
-			productId: z.string(),
-			price: z.number()
-		})
-		.parse(req.body);
+  const input = z
+    .object({
+      redeemCode: z.string().min(4),
+      firstName: z.string().min(2),
+      lastName: z.string().min(2),
+      email: z.string().email(),
+      variantId: z.string(),
+      productId: z.string(),
+      price: z.number(),
+    })
+    .parse(req.body);
 
-	const isRedeemCodeWork = await axios.post(
-		`https://redeem2.${process.env.REDEEM_DOMAIN}/api/price-rules`,
-		{
-			data: {
-				customer_code: input.redeemCode,
-				product_id: input.productId,
-				variant_id: input.variantId
-			}
-		},
-		{
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}
-	);
+  const isRedeemCodeWork = await axios.post(
+    `https://redeem2.${process.env.REDEEM_DOMAIN}/api/price-rules`,
+    {
+      data: {
+        customer_code: input.redeemCode,
+        product_id: input.productId,
+        variant_id: input.variantId,
+      },
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
-	if (isRedeemCodeWork.data.verified === false) {
-		res.statusCode = 404;
-		throw new Error('INVALID CODE!');
-	}
+  if (isRedeemCodeWork.data.verified === false) {
+    res.statusCode = 404;
+    throw new Error("INVALID CODE!");
+  }
 
-	const response = await axios.post(
-		`https://redeem2.${process.env.REDEEM_DOMAIN}/api/create-order`,
-		{
-			data: {
-				customer_code: input.redeemCode
-			},
-			order: {
-				billing_address: {
-					first_name: input.firstName,
-					last_name: input.lastName
-				},
-				customer: {
-					email: input.email,
-					first_name: input.firstName,
-					last_name: input.lastName
-				},
-				email: input.email,
-				line_items: [
-					{
-						price: input.price,
-						quantity: 1,
-						variant_id: input.variantId
-					}
-				],
-				shipping_address: {
-					first_name: input.firstName,
-					last_name: input.lastName
-				}
-			}
-		},
-		{
-			headers: {
-				'Content-Type': 'application/json'
-			}
-		}
-	);
+  const response = await axios.post(
+    `https://redeem2.${process.env.REDEEM_DOMAIN}/api/create-order`,
+    {
+      data: {
+        customer_code: input.redeemCode,
+      },
+      order: {
+        billing_address: {
+          first_name: input.firstName,
+          last_name: input.lastName,
+        },
+        customer: {
+          email: input.email,
+          first_name: input.firstName,
+          last_name: input.lastName,
+        },
+        email: input.email,
+        line_items: [
+          {
+            price: input.price,
+            quantity: 1,
+            variant_id: input.variantId,
+          },
+        ],
+        shipping_address: {
+          first_name: input.firstName,
+          last_name: input.lastName,
+        },
+      },
+    },
+    {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
 
-
-	return res.status(200).json({
-		success: true,
-		message:
-			'Thanks for ordering from Plugins That Knock. Your payment has cleared',
-		data: response.data
-	});
+  return res.status(200).json({
+    success: true,
+    message: `Thanks for ordering from ${APP_NAME.toUpperCase()}. Your payment has cleared`,
+    data: response.data,
+  });
 };
 
 const clientsController = {
-	subscribeToNewsLetters,
-	supportForm,
-	redeemCode,
-	createOrderRedeemCode
+  subscribeToNewsLetters,
+  supportForm,
+  redeemCode,
+  createOrderRedeemCode,
 };
 
 export default clientsController;

@@ -1,4 +1,3 @@
-import type { IKnockPluginPageProps } from '~/pages/knock';
 import VideosContainer from '~/components/shared/core/VideosContainer';
 
 import AddItemOnHeroSectionButton from '~/components/shared/core/AddItemOnHeroSectionButton';
@@ -6,13 +5,14 @@ import { AiFillEdit } from 'react-icons/ai';
 import { useGetUserDataFromStore } from '~/utils/core/hooks';
 import { useEffect, useState } from 'react';
 import { EditYoutubeSection } from '~/components/shared/common/Dialog/editDialogFunctions';
+import { Product } from '~/libs/shopify/types';
 
 const VideosSection = ({
 	knockPlugin,
 	data,
 	sectionId
 }: {
-	knockPlugin: IKnockPluginPageProps['knockPlugin'];
+	knockPlugin: Product
 	data: any;
 	sectionId: string;
 }) => {

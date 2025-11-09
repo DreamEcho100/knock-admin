@@ -18,7 +18,6 @@ const securityHeaders = [
 const nextConfig = (phase, { defaultConfig }) => {
   return {
     reactStrictMode: true,
-    swcMinify: true,
     images: {
       formats: ["image/avif", "image/webp"],
       // domains: ['cdn.shopify.com', 'api.pluginsthatknock.com'],
@@ -46,10 +45,6 @@ const nextConfig = (phase, { defaultConfig }) => {
           port: "4500",
         },
       ],
-    },
-    experimental: {
-      // appDir: true
-      // runtime: 'experimental-edge'
     },
     redirects: async () => {
       return [

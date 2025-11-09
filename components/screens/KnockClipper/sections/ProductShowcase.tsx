@@ -1,16 +1,16 @@
-import type { IKnockClipperPageProps } from '~/pages/knock-clipper';
 
 import KnockTrademark from '~/components/shared/core/KnockTrademark';
 import ProductShowcase from '~/components/shared/core/ProductShowcase';
 import { EditHomePageSecondSection } from '~/components/shared/common/Dialog/editDialogFunctions';
 import { useEffect, useState } from 'react';
 import { useGetUserDataFromStore } from '~/utils/core/hooks';
+import { Product } from '~/libs/shopify/types';
 
 const ProductShowcaseSection = ({
 	knockClipperPlugin,
 	data
 }: {
-	knockClipperPlugin: IKnockClipperPageProps['knockClipperPlugin'];
+	knockClipperPlugin: Product
 	data: any;
 }) => {
 	const [isOpen, setIsOpen] = useState(false);

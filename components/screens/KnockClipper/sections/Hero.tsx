@@ -1,6 +1,5 @@
 import KnockTrademark from '~/components/shared/core/KnockTrademark';
-
-import type { IKnockClipperPageProps } from '~/pages/knock-clipper';
+ 
 import CustomNextImage from '~/components/shared/common/CustomNextImage';
 import AddItemOnHeroSectionButton from '~/components/shared/core/AddItemOnHeroSectionButton';
 import { useEffect, useState, type CSSProperties } from 'react';
@@ -11,10 +10,11 @@ import { AiFillEdit } from 'react-icons/ai';
 import { useGetUserDataFromStore } from '~/utils/core/hooks';
 import Image from 'next/image';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import { Product } from '~/libs/shopify/types';
 const HeroSection = ({
 	knockClipperPlugin
 }: {
-	knockClipperPlugin: IKnockClipperPageProps['knockClipperPlugin'];
+	knockClipperPlugin: Product
 }) => {
 	const [previewImage, setPreviewImage] = useState(null);
 

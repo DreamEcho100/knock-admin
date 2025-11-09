@@ -1,15 +1,14 @@
-import { IProductByIdPageProps } from '~/pages/products/[productHandle]';
-import TwoCardContainer from '~/components/shared/core/TwoCardContainer';
+import TwoCardContainer from "~/components/shared/core/TwoCardContainer";
 
 const FeaturesAndFilesIncludedSection = ({}: // features,
 // filesIncluded
 {
-	// features: IProductByIdPageProps['product']['features'];
-	// filesIncluded: IProductByIdPageProps['product']['filesIncluded'];
+  // features: IProductByIdPageProps['product']['features'];
+  // filesIncluded: IProductByIdPageProps['product']['filesIncluded'];
 }) => {
-	return (
-		<section className='bg-primary-1  section-p-v1'>
-			{/* <TwoCardContainer
+  return (
+    <section className="bg-primary-1  section-p-v1">
+      {/* <TwoCardContainer
 				items1={features}
 				items2={filesIncluded.details}
 				items2HeaderText={`files included ${filesIncluded.count}:`}
@@ -24,8 +23,8 @@ const FeaturesAndFilesIncludedSection = ({}: // features,
 					className: 'text-[90%]'
 				}}
 			/> */}
-		</section>
-	);
+    </section>
+  );
 };
 
 export default FeaturesAndFilesIncludedSection;

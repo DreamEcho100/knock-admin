@@ -1,7 +1,6 @@
-"use server";
 import { isObject, findError } from "../utils";
 import { ensureStartWith } from "../utils";
-import { HIDDEN_PRODUCT_TAG } from "./constants";
+import { collectionsPathSegment, HIDDEN_PRODUCT_TAG } from "./constants";
 import type {
   Collection,
   Cart,
@@ -13,8 +12,6 @@ import type {
   ShopifyErrorLike,
 } from "./types";
 
-export const collectionsPathSegment = "/search";
-
 // if (!process.env.ADMIN_DOMAINE) {
 // 	throw new Error('ADMIN_DOMAINE is not set');
 // }
@@ -23,9 +20,7 @@ export const shopDomain = process.env.ADMIN_DOMAINE
   ? ensureStartWith(process.env.ADMIN_DOMAINE, "https://")
   : "";
 
-console.log("___ process.env", process.env);
 const endpoint = `${shopDomain}/api/${process.env.SHOPIFY_GRAPHQL_API_ENDPOINT}/graphql.json`;
-console.log("___ endpoint", endpoint);
 
 // if (!process.env.SHOPIFY_STOREFRONT_API_TOKEN) {
 // 	throw new Error('SHOPIFY_STOREFRONT_API_TOKEN is not set');

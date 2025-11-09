@@ -7,7 +7,6 @@ import { getBanner } from "~/utils/core/API";
 import { priceCurrencyFormatter } from "~/utils/core/shopify";
 import { cx } from "class-variance-authority";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import {
   CSSProperties,
   HTMLAttributes,
@@ -45,6 +44,7 @@ import {
 } from "~/components/shared/common/Tooltip";
 import { useGetUserDataFromStore, useLogoutUser } from "~/utils/core/hooks";
 import { reshapeShopifyProduct } from "~/libs/shopify/utils";
+import { usePathname } from "next/navigation";
 
 const linkClasses = ({
   isActive,
@@ -71,7 +71,7 @@ const headerLinks = [
 
 const MainHeader = (props: any) => {
   const { user } = useGetUserDataFromStore();
-  const router = useRouter();
+  const pathname = usePathname();
 
   const [onLiveBannerChange, setOnLiveBannerChange] = useState({
     text: "",
@@ -253,8 +253,8 @@ const MainHeader = (props: any) => {
               <Logo
                 onClick={() => setIsSmallScreenNaveOpen(false)}
                 whatKnocks={
-                  router.pathname.startsWith("/products/[productId]") ||
-                  router.pathname.startsWith("/drums-that-knock")
+                  pathname.startsWith("/products/[productId]") ||
+                  pathname.startsWith("/drums-that-knock")
                     ? "DRUMS THAT"
                     : undefined
                 }
@@ -267,7 +267,7 @@ const MainHeader = (props: any) => {
                     <Link
                       href={link.href}
                       className={linkClasses({
-                        isActive: link.href === router.pathname,
+                        isActive: link.href === pathname,
                         keepCase: link.keepCase,
                       })}
                     >
@@ -357,7 +357,7 @@ const MainHeader = (props: any) => {
                     <Link
                       href={link.href}
                       className={`${linkClasses({
-                        isActive: link.href === router.pathname,
+                        isActive: link.href === pathname,
                         keepCase: link.keepCase,
                       })} block w-fit`}
                       onClick={() => setIsSmallScreenNaveOpen(false)}
