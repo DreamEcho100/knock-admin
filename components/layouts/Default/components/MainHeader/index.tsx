@@ -332,7 +332,7 @@ const MainHeader = (props: any) => {
                     title="cart"
                     className="flex items-center justify-center disabled:bg-slate-400"
                     onClick={() => logoutUser.mutate()}
-                    disabled={logoutUser.isLoading}
+                    disabled={logoutUser.isPending}
                   >
                     logout
                   </button>

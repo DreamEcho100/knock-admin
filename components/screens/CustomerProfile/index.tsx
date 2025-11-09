@@ -141,7 +141,7 @@ const UpdateUserBasicDetails = ({
       >
         <fieldset
           className="mt-2 space-y-4"
-          disabled={updateMutation.isLoading}
+          disabled={updateMutation.isPending}
         >
           <FormField
             values={formValues}
@@ -181,7 +181,7 @@ const UpdateUserBasicDetails = ({
             <Button
               type="submit"
               classesIntent={{ w: "full" }}
-              disabled={updateMutation.isLoading || !isChanged}
+              disabled={updateMutation.isPending || !isChanged}
             >
               Submit
             </Button>
@@ -258,7 +258,7 @@ const AddAdminMutiation = ({
         className="sm:w-11/12 mx-auto my-4 flex flex-col"
         onSubmit={AddMutation.mutate}
       >
-        <fieldset className="mt-2 space-y-4" disabled={AddMutation.isLoading}>
+        <fieldset className="mt-2 space-y-4" disabled={AddMutation.isPending}>
           <FormField
             values={formValues}
             setValues={setFormValues}
@@ -353,7 +353,7 @@ const CustomerProfileScreen = () => {
               <span className="text-bg-secondary-1">{user.data?.email}</span> (
               <Button
                 onClick={() => logoutUser.mutate()}
-                disabled={logoutUser.isLoading}
+                disabled={logoutUser.isPending}
                 classesIntent={{ rounded: "none", p: "none", theme: "none" }}
                 className="text-bg-secondary-1 hover:text-violet-600 focus:text-violet-600"
               >

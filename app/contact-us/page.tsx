@@ -165,7 +165,7 @@ const ContactUsPage = () => {
               }
             }}
           />
-          <Button type="submit" disabled={submitForm.isLoading}>
+          <Button type="submit" disabled={submitForm.isPending}>
             Submit
           </Button>
         </form>

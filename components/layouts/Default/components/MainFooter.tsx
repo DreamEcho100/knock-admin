@@ -188,7 +188,7 @@ const MainFooter = () => {
                         email: event.target.value,
                       }));
                     }}
-                    disabled={subscribeToNewsLetters.isLoading}
+                    disabled={subscribeToNewsLetters.isPending}
                   />
                   <Button
                     type="submit"
