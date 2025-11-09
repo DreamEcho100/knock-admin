@@ -12,6 +12,12 @@ import {
 
 import dynamic from "next/dynamic";
 import { Product } from "~/libs/shopify/types";
+import { use, useMemo } from "react";
+
+const DynamicComponentWithNoSSR = dynamic(
+  () => import("./sections/Hero").then((mod) => mod.default),
+  { ssr: false }
+);
 
 const KnockScreen = ({
   knockClipperPlugin,
@@ -29,24 +35,31 @@ const KnockScreen = ({
     }
   );
 
-  const macRequirement = data
-    ? data.forthSection.forth_section_knock_clipper_page_mac.map((el: any) => {
-        return {
-          ...el,
-        };
-      })
-    : [];
-  const pcRequirement = data
-    ? data.forthSection.forth_section_knock_clipper_page_pc.map((el: any) => {
-        return {
-          ...el,
-        };
-      })
-    : [];
-
-  const DynamicComponentWithNoSSR = dynamic(
-    () => import("./sections/Hero").then((mod) => mod.default),
-    { ssr: false }
+  const macRequirement = useMemo(
+    () =>
+      data
+        ? data.forthSection.forth_section_knock_clipper_page_mac.map(
+            (el: any) => {
+              return {
+                ...el,
+              };
+            }
+          )
+        : [],
+    [data]
+  );
+  const pcRequirement = useMemo(
+    () =>
+      data
+        ? data.forthSection.forth_section_knock_clipper_page_pc.map(
+            (el: any) => {
+              return {
+                ...el,
+              };
+            }
+          )
+        : [],
+    [data]
   );
 
   return (
