@@ -1,5 +1,6 @@
 import Link from "next/link";
 import KnockTrademark from "../KnockTrademark";
+import { Fragment } from "react";
 
 interface IProps extends Partial<Parameters<typeof Link>[0]> {
   whatKnocks: string;
@@ -14,10 +15,10 @@ const Logo = ({ whatKnocks, ...props }: IProps) => {
     >
       {whatKnocks.split(" ").map((word, i, arr) => {
         if (i === arr.length - 1) {
-          return <KnockTrademark tradeMarkPrefix={word} />;
+          return <KnockTrademark tradeMarkPrefix={word} key={word} />;
         }
 
-        return <>{word}&nbsp;</>;
+        return <Fragment key={word}>{word}&nbsp;</Fragment>;
       })}
     </Link>
   );

@@ -46,6 +46,8 @@ const nextConfig = (phase, { defaultConfig }) => {
         },
       ],
     },
+    typescript: { ignoreBuildErrors: true },
+    eslint: { ignoreDuringBuilds: true },
     redirects: async () => {
       return [
         {

@@ -15,11 +15,7 @@ import Providers from "~/components/layouts/providers";
 
 // export const metadata: Metadata = SEODefaults;
 
-export async function generateMetadata({
-  params,
-}: {
-  params: { id: string };
-}): Promise<Metadata> {
+export async function generateMetadata(): Promise<Metadata> {
   const h = await headers();
   const host = h.get("host");
 

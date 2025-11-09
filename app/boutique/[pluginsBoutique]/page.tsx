@@ -18,11 +18,10 @@ export async function generateStaticParams() {
     }));
 }
 
-export default async function KnockPluginBoutique({
-  params,
-}: {
-  params: { pluginsBoutique: string };
+export default async function KnockPluginBoutique(props: {
+  params: Promise<{ pluginsBoutique: string }>;
 }) {
+  const params = await props.params;
   const knockPluginBoutique = await getProduct({
     handle: params.pluginsBoutique,
   });

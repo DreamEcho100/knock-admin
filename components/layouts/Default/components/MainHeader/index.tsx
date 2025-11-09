@@ -45,6 +45,7 @@ import {
 import { useGetUserDataFromStore, useLogoutUser } from "~/utils/core/hooks";
 import { reshapeShopifyProduct } from "~/libs/shopify/utils";
 import { usePathname } from "next/navigation";
+import { APP_NAME } from "~/utils/core/constants";
 
 const linkClasses = ({
   isActive,
@@ -253,10 +254,10 @@ const MainHeader = (props: any) => {
               <Logo
                 onClick={() => setIsSmallScreenNaveOpen(false)}
                 whatKnocks={
-                  pathname.startsWith("/products/[productId]") ||
-                  pathname.startsWith("/drums-that-knock")
+                  pathname?.startsWith("/products/[productId]") ||
+                  pathname?.startsWith("/drums-that-knock")
                     ? "DRUMS THAT"
-                    : undefined
+                    : APP_NAME
                 }
               />
             </div>
