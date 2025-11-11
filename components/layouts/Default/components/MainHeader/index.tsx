@@ -326,9 +326,11 @@ const MainHeader = (props: any) => {
               <li>
                 <CartDisplayButton />
               </li>
+              p
               {user?.data && (
                 <li>
                   <button
+                    type="button"
                     title="cart"
                     className="flex items-center justify-center disabled:bg-slate-400"
                     onClick={() => logoutUser.mutate()}

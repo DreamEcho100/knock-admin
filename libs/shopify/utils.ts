@@ -16,16 +16,35 @@ import type {
 // 	throw new Error('ADMIN_DOMAINE is not set');
 // }
 
-export const shopDomain = process.env.ADMIN_DOMAINE
-  ? ensureStartWith(process.env.ADMIN_DOMAINE, "https://")
-  : "";
+// Validate required environment variables
+if (!process.env.ADMIN_DOMAINE) {
+  throw new Error("Missing required environment variable: ADMIN_DOMAINE");
+}
+
+if (!process.env.SHOPIFY_STOREFRONT_API_TOKEN) {
+  throw new Error(
+    "Missing required environment variable: SHOPIFY_STOREFRONT_API_TOKEN"
+  );
+}
+
+if (!process.env.SHOPIFY_GRAPHQL_API_ENDPOINT) {
+  throw new Error(
+    'Missing required environment variable: SHOPIFY_GRAPHQL_API_ENDPOINT (should be the API version like "2024-01")'
+  );
+}
+
+export const shopDomain = ensureStartWith(
+  process.env.ADMIN_DOMAINE,
+  "https://"
+);
 
 const endpoint = `${shopDomain}/api/${process.env.SHOPIFY_GRAPHQL_API_ENDPOINT}/graphql.json`;
+const key = process.env.SHOPIFY_STOREFRONT_API_TOKEN;
 
-// if (!process.env.SHOPIFY_STOREFRONT_API_TOKEN) {
-// 	throw new Error('SHOPIFY_STOREFRONT_API_TOKEN is not set');
-// }
-const key = process.env.SHOPIFY_STOREFRONT_API_TOKEN!;
+// Log endpoint for debugging (only in development)
+if (process.env.NODE_ENV === "development") {
+  console.log("Shopify Storefront API Endpoint:", endpoint);
+}
 
 type ExtractVariables<T> = T extends { variables: object }
   ? T["variables"]
