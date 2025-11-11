@@ -18,6 +18,15 @@ const securityHeaders = [
 const nextConfig = (phase, { defaultConfig }) => {
   return {
     reactStrictMode: true,
+    experimental: {
+      serverActions: {
+        allowedOrigins: [
+          "localhost:3500",
+          "admin.pluginsthatknock.com",
+          "pluginsthatknock.com",
+        ],
+      },
+    },
     images: {
       formats: ["image/avif", "image/webp"],
       // domains: ['cdn.shopify.com', 'api.pluginsthatknock.com'],

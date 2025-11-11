@@ -124,7 +124,6 @@ const MarketingPopUp = (props) => {
       setTimeout(() => toast(result.message, { type: "error" }), 0),
   });
 
-  console.log("___ isMarketingPopupVisible", isMarketingPopupVisible);
   return (
     <Dialog
       header={""}
