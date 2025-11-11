@@ -103,18 +103,23 @@ export async function getProducts({
   reverse?: boolean;
   sortKey?: string;
 } = {}): Promise<Product[]> {
-  const res = await shopifyFetch<ShopifyProductsOperation>({
-    tags: [TAGS.products],
-    revalidate: 3600,
-    query: getProductsQuery,
-    variables: {
-      query,
-      reverse,
-      sortKey,
-    },
-  });
+  try {
+    const res = await shopifyFetch<ShopifyProductsOperation>({
+      tags: [TAGS.products],
+      revalidate: 3600,
+      query: getProductsQuery,
+      variables: {
+        query,
+        reverse,
+        sortKey,
+      },
+    });
 
-  return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
+    return reshapeProducts(removeEdgesAndNodes(res.body.data.products));
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
 }
 
 export async function getCollections(): Promise<Collection[]> {

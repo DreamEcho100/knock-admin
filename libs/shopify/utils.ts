@@ -83,6 +83,9 @@ export async function shopifyFetch<T>({
       : undefined;
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
     const result = await fetch(endpoint, {
       method: "POST",
       headers: {
@@ -96,7 +99,10 @@ export async function shopifyFetch<T>({
       }),
       cache,
       next,
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     const body = await result.json();
 
@@ -119,7 +125,7 @@ export async function shopifyFetch<T>({
       const messages = body.errors
         .map((error: Error | SError) => error.message)
         .join("\n");
-      console.error("Errors:");
+      console.error("Shopify GraphQL Errors:");
       console.dir(body.errors, { depth: Number.MAX_SAFE_INTEGER });
       console.error(messages);
       throw messages;
@@ -130,17 +136,66 @@ export async function shopifyFetch<T>({
       body,
     };
   } catch (error) {
+    // Enhanced error logging for network failures
+    console.error("\n========================================");
+    console.error("🔴 Shopify Fetch Error");
+    console.error("========================================");
+    console.error("Endpoint:", endpoint);
+    console.error(
+      "Error Type:",
+      error instanceof Error ? error.constructor.name : typeof error
+    );
+
+    if (error instanceof Error) {
+      console.error("Error Message:", error.message);
+      console.error("Error Name:", error.name);
+
+      // Check if it's a network error
+      if (
+        error.name === "AggregateError" ||
+        error.message.includes("fetch failed")
+      ) {
+        console.error("\n📡 Network Error Detected - Possible causes:");
+        console.error("  1. DNS resolution failure");
+        console.error("  2. SSL/TLS certificate verification issue");
+        console.error("  3. Network firewall or proxy blocking");
+        console.error("  4. IPv6/IPv4 connectivity issue");
+
+        // Log error cause chain
+        if (error.cause) {
+          console.error("\n🔍 Error Cause Chain:");
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          let currentError: any = error.cause;
+          let depth = 0;
+          while (currentError && depth < 5) {
+            console.error(`  [${depth}]`, currentError);
+            if (currentError.errors && Array.isArray(currentError.errors)) {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              currentError.errors.forEach((err: any, idx: number) => {
+                console.error(`    [${depth}.${idx}]`, err.message || err);
+              });
+            }
+            currentError = currentError.cause;
+            depth++;
+          }
+        }
+      }
+    }
+    console.error("========================================\n");
+
     if (isShopifyError(error)) {
       throw {
-        cause: error.cause?.toString() || "unknown",
+        cause: error.cause?.toString() || "AggregateError",
         status: error.status || 500,
-        message: error.message,
+        message: error.message || "fetch failed",
         query,
       };
     }
 
     throw {
-      error,
+      cause: error instanceof Error ? error.name : "unknown",
+      status: 500,
+      message: error instanceof Error ? error.message : "fetch failed",
       query,
     };
   }
