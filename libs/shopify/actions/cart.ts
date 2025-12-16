@@ -10,7 +10,7 @@ import {
   updateCartBuyerIdentity,
   updateCartDiscountCodes,
 } from "..";
-import { revalidateTag } from 'next/cache, "max"';
+import { revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Cart } from "../types";
