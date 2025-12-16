@@ -1,5 +1,3 @@
-/** @type {import('next').NextConfig} */
-
 const securityHeaders = [
   {
     key: "X-Frame-Options",
@@ -15,8 +13,12 @@ const securityHeaders = [
   },
 ];
 
+/** @returns {import('next').NextConfig} */
 const nextConfig = (phase, { defaultConfig }) => {
   return {
+    devIndicators: {
+      port: 3500,
+    },
     reactStrictMode: true,
     experimental: {
       serverActions: {
@@ -30,6 +32,7 @@ const nextConfig = (phase, { defaultConfig }) => {
     images: {
       formats: ["image/avif", "image/webp"],
       // domains: ['cdn.shopify.com', 'api.pluginsthatknock.com'],
+      dangerouslyAllowLocalIP: true,
 
       remotePatterns: [
         // {

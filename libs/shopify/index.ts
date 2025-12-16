@@ -352,7 +352,7 @@ export async function revalidate(req: NextRequest): Promise<NextResponse> {
   }
 
   if (isCollectionUpdate) {
-    revalidateTag(TAGS.collections);
+    revalidateTag(TAGS.collections, "default");
   }
 
   if (isProductUpdate) {
